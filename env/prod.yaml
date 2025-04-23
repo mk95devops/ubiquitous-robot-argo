@@ -1,16 +1,22 @@
 replicaCount: 5
-project: default
-source:
-  repoURL: https://github.com/mk95devops/ubiquitous-robot-argo.git
-  path: application
-  targetRevision: HEAD
-  helm:
-    valueFiles:
-      - values.yaml
-destination:
-  server: https://kubernetes.default.svc
-  namespace: nginx-prod
-syncPolicy:
-  automated: {}
-  syncOptions:
-    - CreateNamespace=true
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:  
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      ingress.kubernetes.io/ssl-redirect: "false"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      acme.cert-manager.io/http01-edit-in-place: "true"
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: 
+    - host: nginx-prod.mkhamidov.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: 
+   - secretName: nginx-prod-tls
+     hosts:
+       - nginx-prod.mkhamidov.com
+ 
