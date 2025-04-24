@@ -12,7 +12,7 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-        - ../env/dev.yaml
+        - ../nginx/env/dev.yaml
 
   destination:
     server: https://kubernetes.default.svc
