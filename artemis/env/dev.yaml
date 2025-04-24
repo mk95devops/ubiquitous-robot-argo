@@ -1,4 +1,16 @@
 replicaCount: 5
+
+image:
+  repository: us-central1-docker.pkg.dev/terraform-project-mk95/artemis/artemis
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.0.0"
+
+service:
+  port: 5000
+
+
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
